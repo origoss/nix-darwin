@@ -15,10 +15,6 @@
       url = "github:homebrew/homebrew-cask";
       flake = false;
     };
-    home-manager = {
-      url = "github:nix-community/home-manager/release-25.05";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
   };
 
   outputs = inputs@{ self, nix-darwin, nixpkgs, mac-app-util, nix-homebrew, homebrew-core, homebrew-cask, home-manager, ... }:
@@ -30,7 +26,7 @@
           allowUnfree = true;
           allowBroken = true;
           allowInsecure = false;
-          allowUnsupportedSystem = true;
+          allowUnsupportedSystem = false;
          };
       };
       
@@ -73,7 +69,7 @@
       system = {
         configurationRevision = self.rev or self.dirtyRev or null;
         checks.verifyNixPath = false;
-        primaryUser = "jagyugyaerik";
+        primaryUser = builtins.getEnv "USER";
         stateVersion = 6;
 
         defaults = {
@@ -83,6 +79,9 @@
             AppleShowAllFiles = true;
             AppleICUForce24HourTime = true;
             AppleInterfaceStyleSwitchesAutomatically = true;
+            AppleEnableMouseSwipeNavigateWithScrolls = true;
+            AppleEnableSwipeNavigateWithScrolls = true;
+            NSAutomaticWindowAnimationsEnabled = true;
 
             KeyRepeat = 2; # Values: 120, 90, 60, 30, 12, 6, 2
             InitialKeyRepeat = 15; # Values: 120, 94, 68, 35, 25, 15
@@ -119,13 +118,13 @@
       };
 
       # The platform the configuration will be used on.
-      nixpkgs.hostPlatform = "x86_64-darwin";
+      nixpkgs.hostPlatform = "aarch64-darwin";
     };
   in
   {
     # Build darwin flake using:
     # $ darwin-rebuild build --flake .#Eriks-MacBook-Pro
-    darwinConfigurations."Eriks-MacBook-Pro" = nix-darwin.lib.darwinSystem {
+    darwinConfigurations."M-MacBook-Pro" = nix-darwin.lib.darwinSystem {
       modules = [ configuration
                   mac-app-util.darwinModules.default
                   nix-homebrew.darwinModules.nix-homebrew
@@ -138,7 +137,7 @@
                       enableRosetta = false;
 
                       # User owning the Homebrew prefix
-                      user = "jagyugyaerik";
+                      user = config.users.primaryUser;
 
                       # Optional: Declarative tap management
                       taps = {
