@@ -137,7 +137,7 @@
                       enableRosetta = false;
 
                       # User owning the Homebrew prefix
-                      user = config.users.primaryUser;
+                      user = config.system.primaryUser;
 
                       # Optional: Declarative tap management
                       taps = {
