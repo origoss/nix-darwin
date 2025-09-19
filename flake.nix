@@ -21,6 +21,8 @@
   let
     configuration = { pkgs, config, lib, ... }: {
 
+      nix.enable = false;
+
       nixpkgs = {
         config = {
           allowUnfree = true;
@@ -36,6 +38,10 @@
       # $ nix-env -qaP | grep wget
       environment.systemPackages = with pkgs; [] ++ (import ./packages.nix { inherit pkgs; });
 
+      environment.variables = {
+        EDITOR = "vim";
+      };
+
       homebrew = {
         enable = true;
         casks = pkgs.callPackage ./casks.nix {};
@@ -44,9 +50,8 @@
           "kube-ps1"
         ];
         masApps = {
-          "WhatsApp Messenger" = 310633997;                              
-          "Be Focused - Pomodoro Timer" = 973134470;
-          "iMovie" = 408981434;
+        #  "Be Focused - Pomodoro Timer" = 973134470;
+        #  "Microsoft Excel" = 462058435;
         };
         onActivation = {
           cleanup = "zap";
@@ -69,7 +74,7 @@
       system = {
         configurationRevision = self.rev or self.dirtyRev or null;
         checks.verifyNixPath = false;
-        primaryUser = builtins.getEnv "USER";
+        primaryUser = "eja";
         stateVersion = 6;
 
         defaults = {
@@ -137,7 +142,7 @@
                       enableRosetta = false;
 
                       # User owning the Homebrew prefix
-                      user = config.system.primaryUser;
+                      user = "eja";
 
                       # Optional: Declarative tap management
                       taps = {
