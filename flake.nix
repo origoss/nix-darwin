@@ -74,8 +74,9 @@
       system = {
         configurationRevision = self.rev or self.dirtyRev or null;
         checks.verifyNixPath = false;
-        primaryUser = "eja";
         stateVersion = 6;
+
+        primaryUser = "eja";
 
         defaults = {
           NSGlobalDomain = {
@@ -129,7 +130,7 @@
   {
     # Build darwin flake using:
     # $ darwin-rebuild build --flake .#Eriks-MacBook-Pro
-    darwinConfigurations."M-MacBook-Pro" = nix-darwin.lib.darwinSystem {
+    darwinConfigurations."Erik-MBP" = nix-darwin.lib.darwinSystem {
       modules = [ configuration
                   mac-app-util.darwinModules.default
                   nix-homebrew.darwinModules.nix-homebrew
