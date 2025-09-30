@@ -1,9 +1,6 @@
 { pkgs }:
 
 with pkgs; [ 
-  vim
-  tmux
-
   git
   git-crypt
   pre-commit
@@ -11,6 +8,9 @@ with pkgs; [
 
   python3
   virtualenv
+
+  oh-my-zsh
+  fzf-zsh
   
   jq
   fzf
