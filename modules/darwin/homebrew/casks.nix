@@ -8,4 +8,5 @@ _:
     "transmission"
     "iterm2"
     "stats"
+    "virtualbox"
 ]

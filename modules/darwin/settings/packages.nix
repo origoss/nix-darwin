@@ -6,8 +6,10 @@ with pkgs; [
   pre-commit
   gnupg
 
+  # Programing
   python3
   virtualenv
+  go
 
   oh-my-zsh
   fzf-zsh
