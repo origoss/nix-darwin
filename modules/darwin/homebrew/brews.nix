@@ -5,4 +5,5 @@ _:
     "kube-ps1"
     "ollama"
     "vfkit"
+    "kuttl"
 ]

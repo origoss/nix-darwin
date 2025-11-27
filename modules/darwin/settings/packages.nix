@@ -10,6 +10,7 @@ with pkgs; [
   python3
   virtualenv
   go
+  neovim
 
   oh-my-zsh
   fzf-zsh
@@ -37,5 +38,7 @@ with pkgs; [
   kubernetes-helm
   (google-cloud-sdk.withExtraComponents
     [ google-cloud-sdk.components.gke-gcloud-auth-plugin ])
+
 ]
+
 
