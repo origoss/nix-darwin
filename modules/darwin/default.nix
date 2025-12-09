@@ -29,5 +29,7 @@
   programs.tmux = {
     enable = true;
     enableFzf = true;
+    enableSensible = true;
+    enableVim = true;
   };
 }
