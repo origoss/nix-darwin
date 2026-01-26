@@ -8,9 +8,9 @@
     ./homebrew
   ];
 
-  users.users."${username}" = {
-    name = username;
-    home = "/Users/${username}";
+  users.users."eja" = {
+    name = "eja";
+    home = "/Users/eja";
   };
 
   system.stateVersion = 6;

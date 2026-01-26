@@ -2,12 +2,12 @@
   nix.settings = {
     experimental-features = "nix-command flakes";
     extra-sandbox-paths = ["/tmp"]; # Extra paths to bind-mount in the sandbox
-    trusted-users = [username]; # Users that have additional permissions
+    trusted-users = ["eja"]; # Users that have additional permissions
     auto-optimise-store = true;
   };
 
   nixpkgs = {
-    hostPlatform = hostPlatform;
+    hostPlatform = "aarch64-darwin";
     config = {
         allowUnfree = true;
         allowBroken = true;

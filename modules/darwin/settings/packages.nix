@@ -15,6 +15,8 @@ with pkgs; [
   oh-my-zsh
   fzf-zsh
   
+  glab
+
   jq
   fzf
   tree
@@ -34,11 +36,13 @@ with pkgs; [
   k9s
   kustomize
   kubectl
+  kubernetes-polaris
   minikube
   kubernetes-helm
   (google-cloud-sdk.withExtraComponents
     [ google-cloud-sdk.components.gke-gcloud-auth-plugin ])
 
+  neofetch
 ]
 
 

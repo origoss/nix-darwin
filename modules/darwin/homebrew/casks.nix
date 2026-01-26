@@ -1,6 +1,7 @@
 _:
 
 [
+    "aerospace"
     "ghostty"
     "docker"
     "visual-studio-code"

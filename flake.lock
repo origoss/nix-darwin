@@ -89,6 +89,22 @@
         "type": "github"
       }
     },
+    "homebrew-bundle": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1745335228,
+        "narHash": "sha256-TIKR2UgtyUmHLNZp255/vLs+1I10hXe+sciMEbAGFwE=",
+        "owner": "homebrew",
+        "repo": "homebrew-bundle",
+        "rev": "a3265c84b232e13048ecbf6fc18a2eedfadbeb08",
+        "type": "github"
+      },
+      "original": {
+        "owner": "homebrew",
+        "repo": "homebrew-bundle",
+        "type": "github"
+      }
+    },
     "homebrew-cask": {
       "flake": false,
       "locked": {
@@ -118,6 +134,50 @@
       "original": {
         "owner": "homebrew",
         "repo": "homebrew-core",
+        "type": "github"
+      }
+    },
+    "homebrew-fairwindsops": {
+      "flake": false,
+      "locked": {
+        "narHash": "sha256-uTcJBf8GdB6Hnj8w+NAxs3DtJotJk4+zgwXBFSe2hHM=",
+        "type": "file",
+        "url": "https://github.com/FairwindsOps/homebrew-tap"
+      },
+      "original": {
+        "type": "file",
+        "url": "https://github.com/FairwindsOps/homebrew-tap"
+      }
+    },
+    "homebrew-helm": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1767023245,
+        "narHash": "sha256-OjKrX38jNDYlbxZKI/3Jcigjyq8Dv/FiFwet8ODILas=",
+        "owner": "helm",
+        "repo": "chart-releaser",
+        "rev": "3639d17c93d80e6d4714b6abd73724ef39d82e1a",
+        "type": "github"
+      },
+      "original": {
+        "owner": "helm",
+        "repo": "chart-releaser",
+        "type": "github"
+      }
+    },
+    "homebrew-nikitabobko": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1764022179,
+        "narHash": "sha256-OQJ6Wx6Pi61uu46I7xaHpeiTavDQp1ZLVbHJGR1NL20=",
+        "owner": "nikitabobko",
+        "repo": "homebrew-tap",
+        "rev": "80dfd269edca8bc2ec5d83dbd332863cf684f753",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nikitabobko",
+        "repo": "homebrew-tap",
         "type": "github"
       }
     },
@@ -217,8 +277,12 @@
     "root": {
       "inputs": {
         "home-manager": "home-manager",
+        "homebrew-bundle": "homebrew-bundle",
         "homebrew-cask": "homebrew-cask",
         "homebrew-core": "homebrew-core",
+        "homebrew-fairwindsops": "homebrew-fairwindsops",
+        "homebrew-helm": "homebrew-helm",
+        "homebrew-nikitabobko": "homebrew-nikitabobko",
         "mac-app-util": "mac-app-util",
         "nix-darwin": "nix-darwin",
         "nix-homebrew": "nix-homebrew",

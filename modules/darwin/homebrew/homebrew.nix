@@ -1,6 +1,13 @@
 {pkgs, config, ...}: {
   homebrew = {
     enable = true;
+
+    global = {
+      brewfile = true;
+      autoUpdate = false;
+    };
+
+    brewPrefix = "/opt/homebrew/bin";
     
     casks = pkgs.callPackage ./casks.nix {};
     brews = pkgs.callPackage ./brews.nix {};
@@ -10,7 +17,7 @@
     };
     
     onActivation = {
-      cleanup = "none";
+      cleanup = "zap";
       autoUpdate = true;
       upgrade = true;
     };
