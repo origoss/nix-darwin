@@ -12,11 +12,8 @@ with pkgs; [
   go
   neovim
 
-  oh-my-zsh
   fzf-zsh
   
-  glab
-
   jq
   fzf
   tree
