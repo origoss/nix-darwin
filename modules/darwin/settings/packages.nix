@@ -6,6 +6,8 @@ with pkgs; [
   pre-commit
   gnupg
 
+  d2
+
   # Programing
   python3
   virtualenv

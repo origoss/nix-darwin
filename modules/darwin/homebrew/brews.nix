@@ -16,4 +16,5 @@ _:
     "ollama"
     "vfkit"
     "kuttl"
+    "act"
 ]
