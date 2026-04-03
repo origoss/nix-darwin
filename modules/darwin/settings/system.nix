@@ -33,10 +33,12 @@
       orientation = "bottom";
       tilesize = 48;
       persistent-apps = [
-          "/System/Applications/Calendar.app/"
-          "/Applications/Google\ Chrome.app"
-          "/Applications/iTerm.app"
-          "/Applications/Visual\ Studio\ Code.app"
+          "/System/Finder.app"
+          "/System/Applications/Calendar.app"
+          "/Applications/Google Chrome.app"
+          "/Applications/Visual Studio Code.app"
+          "/Applications/Ghostty.app"
+          "/Applications/Claude.app"
       ];
       };
 
