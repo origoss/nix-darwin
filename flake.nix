@@ -22,14 +22,6 @@
       url = "github:nikitabobko/homebrew-tap";
       flake = false;
     };
-    homebrew-fairwindsops = {
-      url = "https://github.com/FairwindsOps/homebrew-tap";
-      flake = false;
-    };
-    homebrew-helm = {
-      url = "github:helm/chart-releaser";
-      flake = false;
-    };
     homebrew-bundle = {
       url = "github:homebrew/homebrew-bundle";
       flake = false;
@@ -40,7 +32,7 @@
     };
   };
 
-  outputs = inputs@{ self, nix-darwin, nixpkgs, mac-app-util, nix-homebrew, homebrew-core, homebrew-cask, home-manager, homebrew-bundle, homebrew-nikitabobko, homebrew-helm, homebrew-fairwindsops,... }:
+  outputs = inputs@{ self, nix-darwin, nixpkgs, mac-app-util, nix-homebrew, homebrew-core, homebrew-cask, home-manager, homebrew-bundle, homebrew-nikitabobko, ... }:
   let
     username = "eja";
     hostPlatform = "aarch64-darwin"; 
@@ -73,8 +65,6 @@
               "homebrew/homebrew-cask" = homebrew-cask;
               "homebrew/homebrew-bundle" = inputs.homebrew-bundle;
               "nikitabobko/homebrew-aerospace" = inputs.homebrew-nikitabobko;
-              "FairwindsOps/homebrew-tap" = inputs.homebrew-fairwindsops;
-              "helm/homebrew-chart-releaser" = inputs.homebrew-helm;
             };
 
             mutableTaps = false;
@@ -85,6 +75,7 @@
           home-manager.useGlobalPkgs = true;
           home-manager.useUserPackages = true;
           home-manager.verbose = true;
+          home-manager.backupFileExtension = "backup";
           home-manager.users.eja = import ./modules/home/home.nix; 
         }
       ];

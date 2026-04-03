@@ -17,4 +17,5 @@ _:
     "vfkit"
     "kuttl"
     "act"
+    "gemini-cli"
 ]

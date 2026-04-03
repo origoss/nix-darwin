@@ -7,7 +7,7 @@
       autoUpdate = false;
     };
 
-    brewPrefix = "/opt/homebrew/bin";
+    prefix = "/opt/homebrew";
     
     casks = pkgs.callPackage ./casks.nix {};
     brews = pkgs.callPackage ./brews.nix {};

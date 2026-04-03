@@ -10,4 +10,5 @@ _:
     "transmission"
     "stats"
     "virtualbox"
+    "claude"
 ]
