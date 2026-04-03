@@ -13,7 +13,7 @@ _:
     "tflint"
     "mas"
     "kube-ps1"
-    "ollama"
+
     "vfkit"
     "kuttl"
     "act"

@@ -23,6 +23,43 @@
 
   programs.zsh = {
     enable = true;
-    initContent = "fastfetch";
+    oh-my-zsh = {
+      enable = true;
+      theme = "robbyrussell";
+      plugins = [
+        "git"
+        "fzf"
+        "helm"
+        "kind"
+        "kubectl"
+        "kubectx"
+        "kube-ps1"
+        "macos"
+      ];
+    };
+    initContent = ''
+      fastfetch
+
+      export XDG_CONFIG_HOME=''${XDG_CONFIG_HOME:-$HOME/.config}
+      export XDG_CACHE_HOME=''${XDG_CACHE_HOME:-$HOME/.cache}
+      export XDG_DATA_HOME=''${XDG_DATA_HOME:-$HOME/.local/share}
+      export XDG_STATE_HOME=''${XDG_STATE_HOME:-$HOME/.local/state}
+
+      if [[ -n $SSH_CONNECTION ]]; then
+        export EDITOR='vim'
+      else
+        export EDITOR='nvim'
+      fi
+
+      export ARCHFLAGS="-arch $(uname -m)"
+
+      PROMPT='$(kube_ps1)'"$PROMPT"
+      export PATH="''${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
+
+      [ -f ~/.kubectl_aliases ] && source ~/.kubectl_aliases
+      [ -f ~/.zsh_variables ] && source ~/.zsh_variables
+      [ -f ~/.zsh_funcs ] && source ~/.zsh_funcs
+      [ -f ~/.zsh_aliases ] && source ~/.zsh_aliases
+    '';
   };
 }
