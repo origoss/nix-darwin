@@ -27,10 +27,19 @@
   programs.home-manager.enable = true;
 
   xdg.configFile."aerospace/aerospace.toml".text = ''
+    # Config version for compatibility
+    config-version = 2
+
+    # Startup commands
     after-login-command = []
     after-startup-command = []
     start-at-login = true
 
+    # Normalizations
+    enable-normalization-flatten-containers = true
+    enable-normalization-opposite-orientation-for-nested-containers = true
+
+    # Gaps configuration
     [gaps]
     inner.horizontal = 8
     inner.vertical   = 8
