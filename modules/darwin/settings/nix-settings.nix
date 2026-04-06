@@ -1,10 +1,6 @@
 {username, hostPlatform, ...}: {
-  nix.settings = {
-    experimental-features = "nix-command flakes";
-    extra-sandbox-paths = ["/tmp"]; # Extra paths to bind-mount in the sandbox
-    trusted-users = ["eja"]; # Users that have additional permissions
-    auto-optimise-store = true;
-  };
+  # Disable nix-darwin's Nix management because Determinate Nix is being used
+  nix.enable = false;
 
   nixpkgs = {
     hostPlatform = "aarch64-darwin";
@@ -15,6 +11,4 @@
         allowUnsupportedSystem = false;
     };
   };
-
-  nix.enable = false;
 }

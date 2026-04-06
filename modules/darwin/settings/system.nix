@@ -32,13 +32,14 @@
       launchanim = true;
       orientation = "bottom";
       tilesize = 48;
+      # Applications pinned to the dock
+      # Note: Ensure these applications are installed via homebrew.casks or other means
       persistent-apps = [
           "/System/Finder.app"
           "/System/Applications/Calendar.app"
-          "/Applications/Google Chrome.app"
-          "/Applications/Visual Studio Code.app"
-          "/Applications/Ghostty.app"
-          "/Applications/Claude.app"
+          "/Applications/Google Chrome.app"        # Installed via homebrew cask: google-chrome
+          "/Applications/Visual Studio Code.app"   # Installed via homebrew cask: visual-studio-code
+          "/Applications/Ghostty.app"              # Installed via homebrew cask: ghostty
       ];
       };
 

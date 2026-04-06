@@ -1,11 +1,14 @@
 {pkgs, ...}: {
+  imports = [
+    ./packages.nix
+  ];
+
   environment = {
     shells = with pkgs; [bash zsh];
-    systemPackages = with pkgs; [] ++ (import ./packages.nix { inherit pkgs; });
     systemPath = ["/usr/local/bin"];
     pathsToLink = ["/Applications" "/share/zsh"];
     variables = {
-      EDITOR = "vim";
+      # EDITOR is configured in home-manager (modules/home/home.nix)
       PAGER = "less -R";
     };
   };

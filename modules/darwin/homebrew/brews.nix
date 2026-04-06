@@ -18,4 +18,5 @@ _:
     "kuttl"
     "act"
     "gemini-cli"
+    "opencode"
 ]

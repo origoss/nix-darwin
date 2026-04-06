@@ -1,46 +1,47 @@
-{ pkgs }:
+{ pkgs, ... }:
 
-with pkgs; [ 
-  git
-  git-crypt
-  pre-commit
-  gnupg
+{
+  environment.systemPackages = with pkgs; [ 
+    git
+    git-crypt
+    pre-commit
+    gnupg
 
-  d2
+    d2
 
-  # Programing
-  python3
-  virtualenv
-  go
-  neovim
+    # Programming
+    python3
+    virtualenv
+    go
+    neovim
 
-  jq
-  fzf
-  tree
-  direnv
-  nix-direnv
-  
-  # VPN
-  openfortivpn
-  
-  # Shell
-  zsh
-  zsh-autosuggestions
-  zsh-nix-shell
-  zsh-syntax-highlighting
+    jq
+    fzf
+    tree
+    direnv
+    nix-direnv
+    
+    # VPN
+    openfortivpn
+    
+    # Shell
+    zsh
+    zsh-autosuggestions
+    zsh-nix-shell
+    zsh-syntax-highlighting
 
-  # K8s
-  k9s
-  kustomize
-  kubectl
-  kubernetes-polaris
-  minikube
-  kubernetes-helm
-  (google-cloud-sdk.withExtraComponents
-    [ google-cloud-sdk.components.gke-gcloud-auth-plugin ])
+    # K8s
+    k9s
+    kustomize
+    kubectl
+    kubernetes-polaris
+    minikube
+    kubernetes-helm
+    (google-cloud-sdk.withExtraComponents
+      [ google-cloud-sdk.components.gke-gcloud-auth-plugin ])
 
-  fastfetch
-  claude-code
-]
-
+    fastfetch
+    claude-code
+  ];
+}
 

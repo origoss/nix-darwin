@@ -2,7 +2,13 @@
   description = "Erik nix-darwin system flake";
   
   nixConfig = {
-    };
+    extra-substituters = [
+      "https://nix-community.cachix.org"
+    ];
+    extra-trusted-public-keys = [
+      "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
+    ];
+  };
   
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
@@ -22,6 +28,10 @@
       url = "github:nikitabobko/homebrew-tap";
       flake = false;
     };
+    homebrew-anomalyco = {
+      url = "github:anomalyco/homebrew-tap";
+      flake = false;
+    };
     homebrew-bundle = {
       url = "github:homebrew/homebrew-bundle";
       flake = false;
@@ -32,7 +42,7 @@
     };
   };
 
-  outputs = inputs@{ self, nix-darwin, nixpkgs, mac-app-util, nix-homebrew, homebrew-core, homebrew-cask, home-manager, homebrew-bundle, homebrew-nikitabobko, ... }:
+  outputs = inputs@{ self, nix-darwin, nixpkgs, mac-app-util, nix-homebrew, homebrew-core, homebrew-cask, home-manager, homebrew-bundle, homebrew-nikitabobko, homebrew-anomalyco, ... }:
   let
     username = "eja";
     hostPlatform = "aarch64-darwin"; 
@@ -42,7 +52,9 @@
     # Build darwin flake using:
     # $ darwin-rebuild build --flake .#Eriks-MacBook-Pro-2
     darwinConfigurations."Eriks-MacBook-Pro-2" = nix-darwin.lib.darwinSystem {
-      specialArgs = inputs;
+      specialArgs = inputs // {
+        inherit username hostPlatform hostname;
+      };
 
       modules = [
         ./modules/darwin
@@ -65,17 +77,22 @@
               "homebrew/homebrew-cask" = homebrew-cask;
               "homebrew/homebrew-bundle" = inputs.homebrew-bundle;
               "nikitabobko/homebrew-aerospace" = inputs.homebrew-nikitabobko;
+              "anomalyco/homebrew-tap" = inputs.homebrew-anomalyco;
             };
 
             mutableTaps = false;
             autoMigrate = true;
           };
         }
-	home-manager.darwinModules.home-manager  {
+	home-manager.darwinModules.home-manager
+        {
           home-manager.useGlobalPkgs = true;
           home-manager.useUserPackages = true;
           home-manager.verbose = true;
           home-manager.backupFileExtension = "backup";
+          home-manager.extraSpecialArgs = {
+            inherit mac-app-util;
+          };
           home-manager.users.eja = import ./modules/home/home.nix; 
         }
       ];

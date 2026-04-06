@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, lib, mac-app-util, ... }:
 {
   # Home Manager needs a bit of information about you and the
   # paths it should manage.
@@ -6,8 +6,13 @@
   home.homeDirectory = "/Users/eja";
   home.packages = with pkgs; [];
   home.sessionVariables = {
-    EDITOR = "vim";
+    # EDITOR is set conditionally in zsh.initExtra based on SSH connection
    };
+
+  # Integrate with macOS applications
+  home.activation.trampolineApps = lib.hm.dag.entryAfter ["writeBoundary"] ''
+    ${mac-app-util.packages.${pkgs.system}.default}/bin/mac-app-util sync-trampolines
+  '';
   # This value determines the Home Manager release that your
   # configuration is compatible with. This helps avoid breakage
   # when a new Home Manager release introduces backwards
@@ -117,7 +122,7 @@
       if [[ -n $SSH_CONNECTION ]]; then
         export EDITOR='vim'
       else
-        export EDITOR='nvim'
+        export EDITOR='hx'
       fi
 
       export ARCHFLAGS="-arch $(uname -m)"

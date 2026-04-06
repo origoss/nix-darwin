@@ -17,7 +17,7 @@
     };
     
     onActivation = {
-      cleanup = "none";
+      cleanup = "uninstall";  # Uninstall packages removed from config for reproducibility
       autoUpdate = true;
       upgrade = true;
     };
