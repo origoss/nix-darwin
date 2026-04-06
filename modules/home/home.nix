@@ -111,7 +111,7 @@
         "macos"
       ];
     };
-    initContent = ''
+    initExtra = ''
       fastfetch
 
       export XDG_CONFIG_HOME=''${XDG_CONFIG_HOME:-$HOME/.config}
