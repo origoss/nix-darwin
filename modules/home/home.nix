@@ -4,10 +4,17 @@
   # paths it should manage.
   home.username = "eja";
   home.homeDirectory = "/Users/eja";
-  home.packages = with pkgs; [];
+  home.packages = with pkgs; [
+    nodejs
+  ];
+
+  home.file.".npmrc".text = ''
+    prefix=${config.home.homeDirectory}/.npm-global
+  '';
+
   home.sessionVariables = {
     # EDITOR is set conditionally in zsh.initExtra based on SSH connection
-   };
+  };
 
   # Integrate with macOS applications
   home.activation.trampolineApps = lib.hm.dag.entryAfter ["writeBoundary"] ''
@@ -123,7 +130,7 @@
         "macos"
       ];
     };
-    initExtra = ''
+    initContent = ''
       fastfetch
 
       export XDG_CONFIG_HOME=''${XDG_CONFIG_HOME:-$HOME/.config}
@@ -141,6 +148,7 @@
 
       PROMPT='$(kube_ps1)'"$PROMPT"
       export PATH="''${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
+      export PATH="$HOME/.npm-global/bin:$PATH"
 
       [ -f ~/.kubectl_aliases ] && source ~/.kubectl_aliases
       [ -f ~/.zsh_variables ] && source ~/.zsh_variables

@@ -18,5 +18,5 @@ _:
     "kuttl"
     "act"
     "gemini-cli"
-    "opencode"
+    # "opencode"  # homebrew formula broken upstream (wrong number of arguments)
 ]

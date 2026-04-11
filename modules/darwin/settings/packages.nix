@@ -42,6 +42,8 @@
 
     fastfetch
     claude-code
+    pandoc
+    gh
   ];
 }
 

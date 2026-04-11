@@ -3,7 +3,7 @@ _:
 [
     "aerospace"
     "ghostty"
-    "docker"
+    "docker-desktop"
     "visual-studio-code"
     "vlc"
     "google-chrome"
