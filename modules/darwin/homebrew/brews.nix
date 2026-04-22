@@ -18,5 +18,6 @@ _:
     "kuttl"
     "act"
     "gemini-cli"
+    "triptechtravel/tap/clickup"
     # "opencode"  # homebrew formula broken upstream (wrong number of arguments)
 ]

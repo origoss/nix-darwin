@@ -32,6 +32,10 @@
       url = "github:anomalyco/homebrew-tap";
       flake = false;
     };
+    homebrew-triptechtravel-tap = {
+      url = "github:triptechtravel/homebrew-tap";
+      flake = false;
+    };
     homebrew-bundle = {
       url = "github:homebrew/homebrew-bundle";
       flake = false;
@@ -78,6 +82,7 @@
               "homebrew/homebrew-bundle" = inputs.homebrew-bundle;
               "nikitabobko/homebrew-aerospace" = inputs.homebrew-nikitabobko;
               "anomalyco/homebrew-tap" = inputs.homebrew-anomalyco;
+              "triptechtravel/homebrew-tap" = inputs.homebrew-triptechtravel-tap;
             };
 
             mutableTaps = false;
