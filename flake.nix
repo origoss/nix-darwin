@@ -40,13 +40,21 @@
       url = "github:homebrew/homebrew-bundle";
       flake = false;
     };
+    homebrew-multica = {
+      url = "github:multica-ai/homebrew-tap";
+      flake = false;
+    };
+    homebrew-schpet = {
+      url = "github:schpet/homebrew-tap";
+      flake = false;
+    };
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
 
-  outputs = inputs@{ self, nix-darwin, nixpkgs, mac-app-util, nix-homebrew, homebrew-core, homebrew-cask, home-manager, homebrew-bundle, homebrew-nikitabobko, homebrew-anomalyco, ... }:
+  outputs = inputs@{ self, nix-darwin, nixpkgs, mac-app-util, nix-homebrew, homebrew-core, homebrew-cask, home-manager, homebrew-bundle, homebrew-nikitabobko, homebrew-anomalyco, homebrew-multica, ... }:
   let
     username = "eja";
     hostPlatform = "aarch64-darwin"; 
@@ -83,6 +91,8 @@
               "nikitabobko/homebrew-aerospace" = inputs.homebrew-nikitabobko;
               "anomalyco/homebrew-tap" = inputs.homebrew-anomalyco;
               "triptechtravel/homebrew-tap" = inputs.homebrew-triptechtravel-tap;
+              "multica-ai/homebrew-tap" = inputs.homebrew-multica;
+              "schpet/homebrew-tap" = inputs.homebrew-schpet;
             };
 
             mutableTaps = false;
