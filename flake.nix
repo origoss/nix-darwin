@@ -1,6 +1,6 @@
 {
   description = "Erik nix-darwin system flake";
-  
+
   nixConfig = {
     extra-substituters = [
       "https://nix-community.cachix.org"
@@ -9,7 +9,7 @@
       "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
     ];
   };
-  
+
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
     nix-darwin.url = "github:nix-darwin/nix-darwin/master";
@@ -56,66 +56,86 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-  };
-
-  outputs = inputs@{ self, nix-darwin, nixpkgs, mac-app-util, nix-homebrew, homebrew-core, homebrew-cask, home-manager, homebrew-bundle, homebrew-nikitabobko, homebrew-anomalyco, homebrew-multica, ... }:
-  let
-    username = "eja";
-    hostPlatform = "aarch64-darwin"; 
-    hostname = "Eriks-MacBook-Pro-2";
-  in
-  {
-    # Build darwin flake using:
-    # $ darwin-rebuild build --flake .#Eriks-MacBook-Pro-2
-    darwinConfigurations."Eriks-MacBook-Pro-2" = nix-darwin.lib.darwinSystem {
-      specialArgs = inputs // {
-        inherit username hostPlatform hostname;
-      };
-
-      modules = [
-        ./modules/darwin
-        mac-app-util.darwinModules.default
-        nix-homebrew.darwinModules.nix-homebrew
-        {
-          nix-homebrew = {
-            # Install Homebrew under the default prefix
-            enable = true;
-
-            # Apple Silicon Only: Also install Homebrew under the default Intel prefix for Rosetta 2
-            enableRosetta = false;
-
-            # User owning the Homebrew prefix
-            user = "eja";
-
-            # Optional: Declarative tap management
-            taps = {
-              "homebrew/homebrew-core" = homebrew-core;
-              "homebrew/homebrew-cask" = homebrew-cask;
-              "homebrew/homebrew-bundle" = inputs.homebrew-bundle;
-              "nikitabobko/homebrew-aerospace" = inputs.homebrew-nikitabobko;
-              "anomalyco/homebrew-tap" = inputs.homebrew-anomalyco;
-              "triptechtravel/homebrew-tap" = inputs.homebrew-triptechtravel-tap;
-              "multica-ai/homebrew-tap" = inputs.homebrew-multica;
-              "schpet/homebrew-tap" = inputs.homebrew-schpet;
-              "jundot/homebrew-omlx" = inputs.homebrew-jundot-omlx;
-            };
-
-            mutableTaps = false;
-            autoMigrate = true;
-          };
-        }
-	home-manager.darwinModules.home-manager
-        {
-          home-manager.useGlobalPkgs = true;
-          home-manager.useUserPackages = true;
-          home-manager.verbose = true;
-          home-manager.backupFileExtension = "backup";
-          home-manager.extraSpecialArgs = {
-            inherit mac-app-util;
-          };
-          home-manager.users.eja = import ./modules/home/home.nix; 
-        }
-      ];
+    treefmt-nix = {
+      url = "github:numtide/treefmt-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
   };
+
+  outputs =
+    inputs@{
+      self,
+      nix-darwin,
+      nixpkgs,
+      mac-app-util,
+      nix-homebrew,
+      homebrew-core,
+      homebrew-cask,
+      home-manager,
+      treefmt-nix,
+      ...
+    }:
+    let
+      username = "eja";
+      hostPlatform = "aarch64-darwin";
+      hostname = "Eriks-MacBook-Pro-2";
+      treefmtEval = treefmt-nix.lib.evalModule nixpkgs.legacyPackages.${hostPlatform} ./treefmt.nix;
+    in
+    {
+      formatter.${hostPlatform} = treefmtEval.config.build.wrapper;
+      checks.${hostPlatform}.formatting = treefmtEval.config.build.check self;
+
+      # Build darwin flake using:
+      # $ darwin-rebuild build --flake .#Eriks-MacBook-Pro-2
+      darwinConfigurations."Eriks-MacBook-Pro-2" = nix-darwin.lib.darwinSystem {
+        specialArgs = inputs // {
+          inherit username hostPlatform hostname;
+        };
+
+        modules = [
+          ./modules/darwin
+          mac-app-util.darwinModules.default
+          nix-homebrew.darwinModules.nix-homebrew
+          {
+            nix-homebrew = {
+              # Install Homebrew under the default prefix
+              enable = true;
+
+              # Apple Silicon Only: Also install Homebrew under the default Intel prefix for Rosetta 2
+              enableRosetta = false;
+
+              # User owning the Homebrew prefix
+              user = "eja";
+
+              # Optional: Declarative tap management
+              taps = {
+                "homebrew/homebrew-core" = homebrew-core;
+                "homebrew/homebrew-cask" = homebrew-cask;
+                "homebrew/homebrew-bundle" = inputs.homebrew-bundle;
+                "nikitabobko/homebrew-aerospace" = inputs.homebrew-nikitabobko;
+                "anomalyco/homebrew-tap" = inputs.homebrew-anomalyco;
+                "triptechtravel/homebrew-tap" = inputs.homebrew-triptechtravel-tap;
+                "multica-ai/homebrew-tap" = inputs.homebrew-multica;
+                "schpet/homebrew-tap" = inputs.homebrew-schpet;
+                "jundot/homebrew-omlx" = inputs.homebrew-jundot-omlx;
+              };
+
+              mutableTaps = false;
+              autoMigrate = true;
+            };
+          }
+          home-manager.darwinModules.home-manager
+          {
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+            home-manager.verbose = true;
+            home-manager.backupFileExtension = "backup";
+            home-manager.extraSpecialArgs = {
+              inherit mac-app-util;
+            };
+            home-manager.users.eja = import ./modules/home/home.nix;
+          }
+        ];
+      };
+    };
 }

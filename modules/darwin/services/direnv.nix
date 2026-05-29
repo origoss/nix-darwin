@@ -2,7 +2,7 @@
   programs.direnv = {
     enable = true;
     direnvrcExtra = ''
-    echo "Loaded direnv "
+      echo "Loaded direnv "
     '';
     silent = true;
 

@@ -1,4 +1,5 @@
-{pkgs, ...}: let
+{ pkgs, ... }:
+let
   # Local MLX inference server (OpenAI-compatible on :8000). Binds 0.0.0.0 so
   # the OpenViking podman container can reach it via host.containers.internal.
   # Models are discovered from ~/.omlx/models subdirectories.
@@ -8,10 +9,11 @@
       --model-dir "$HOME/.omlx/models" \
       --log-level info
   '';
-in {
+in
+{
   launchd.user.agents.omlx = {
     serviceConfig = {
-      ProgramArguments = ["${start}"];
+      ProgramArguments = [ "${start}" ];
       RunAtLoad = true;
       KeepAlive = true; # long-running server: restart if it exits
       StandardOutPath = "/tmp/omlx.out.log";

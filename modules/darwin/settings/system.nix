@@ -1,4 +1,5 @@
-{self, ...}: {
+{ self, ... }:
+{
   security.pam.services.sudo_local.touchIdAuth = true;
   system = {
     configurationRevision = self.rev or self.dirtyRev or null;
@@ -8,48 +9,48 @@
 
     defaults = {
       NSGlobalDomain = {
-      AppleShowAllExtensions = true;
-      ApplePressAndHoldEnabled = false;
-      AppleShowAllFiles = true;
-      AppleICUForce24HourTime = true;
-      AppleInterfaceStyleSwitchesAutomatically = true;
-      AppleEnableMouseSwipeNavigateWithScrolls = true;
-      AppleEnableSwipeNavigateWithScrolls = true;
-      NSAutomaticWindowAnimationsEnabled = true;
+        AppleShowAllExtensions = true;
+        ApplePressAndHoldEnabled = false;
+        AppleShowAllFiles = true;
+        AppleICUForce24HourTime = true;
+        AppleInterfaceStyleSwitchesAutomatically = true;
+        AppleEnableMouseSwipeNavigateWithScrolls = true;
+        AppleEnableSwipeNavigateWithScrolls = true;
+        NSAutomaticWindowAnimationsEnabled = true;
 
-      KeyRepeat = 2; # Values: 120, 90, 60, 30, 12, 6, 2
-      InitialKeyRepeat = 15; # Values: 120, 94, 68, 35, 25, 15
+        KeyRepeat = 2; # Values: 120, 90, 60, 30, 12, 6, 2
+        InitialKeyRepeat = 15; # Values: 120, 94, 68, 35, 25, 15
 
-      "com.apple.mouse.tapBehavior" = 1;
-      "com.apple.sound.beep.volume" = 0.0;
-      "com.apple.sound.beep.feedback" = 0;
-      "com.apple.trackpad.scaling" = 3.0;
+        "com.apple.mouse.tapBehavior" = 1;
+        "com.apple.sound.beep.volume" = 0.0;
+        "com.apple.sound.beep.feedback" = 0;
+        "com.apple.trackpad.scaling" = 3.0;
       };
 
       dock = {
-      autohide = true;
-      show-recents = false;
-      launchanim = true;
-      orientation = "bottom";
-      tilesize = 48;
-      # Applications pinned to the dock
-      # Note: Ensure these applications are installed via homebrew.casks or other means
-      persistent-apps = [
+        autohide = true;
+        show-recents = false;
+        launchanim = true;
+        orientation = "bottom";
+        tilesize = 48;
+        # Applications pinned to the dock
+        # Note: Ensure these applications are installed via homebrew.casks or other means
+        persistent-apps = [
           "/System/Finder.app"
           "/System/Applications/Calendar.app"
-          "/Applications/Google Chrome.app"        # Installed via homebrew cask: google-chrome
-          "/Applications/Visual Studio Code.app"   # Installed via homebrew cask: visual-studio-code
-          "/Applications/Ghostty.app"              # Installed via homebrew cask: ghostty
-      ];
+          "/Applications/Google Chrome.app" # Installed via homebrew cask: google-chrome
+          "/Applications/Visual Studio Code.app" # Installed via homebrew cask: visual-studio-code
+          "/Applications/Ghostty.app" # Installed via homebrew cask: ghostty
+        ];
       };
 
       finder = {
-      _FXShowPosixPathInTitle = false;
+        _FXShowPosixPathInTitle = false;
       };
 
       trackpad = {
-      Clicking = true;
-      TrackpadThreeFingerDrag = true;
+        Clicking = true;
+        TrackpadThreeFingerDrag = true;
       };
     };
   };

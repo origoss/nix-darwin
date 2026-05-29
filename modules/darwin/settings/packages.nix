@@ -1,7 +1,7 @@
 { pkgs, ... }:
 
 {
-  environment.systemPackages = with pkgs; [ 
+  environment.systemPackages = with pkgs; [
     git
     git-crypt
     pre-commit
@@ -20,10 +20,10 @@
     tree
     direnv
     nix-direnv
-    
+
     # VPN
     openfortivpn
-    
+
     # Shell
     zsh
     zsh-autosuggestions
@@ -37,8 +37,7 @@
     kubernetes-polaris
     minikube
     kubernetes-helm
-    (google-cloud-sdk.withExtraComponents
-      [ google-cloud-sdk.components.gke-gcloud-auth-plugin ])
+    (google-cloud-sdk.withExtraComponents [ google-cloud-sdk.components.gke-gcloud-auth-plugin ])
 
     fastfetch
     claude-code
@@ -47,4 +46,3 @@
     gh
   ];
 }
-

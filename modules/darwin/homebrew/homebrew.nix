@@ -1,4 +1,5 @@
-{pkgs, config, ...}: {
+{ pkgs, config, ... }:
+{
   homebrew = {
     enable = true;
 
@@ -8,19 +9,19 @@
     };
 
     prefix = "/opt/homebrew";
-    
-    casks = pkgs.callPackage ./casks.nix {};
-    brews = pkgs.callPackage ./brews.nix {};
+
+    casks = pkgs.callPackage ./casks.nix { };
+    brews = pkgs.callPackage ./brews.nix { };
     masApps = {
       "Be Focused - Pomodoro Timer" = 973134470;
     };
-    
+
     onActivation = {
-      cleanup = "uninstall";  # Uninstall packages removed from config for reproducibility
+      cleanup = "uninstall"; # Uninstall packages removed from config for reproducibility
       autoUpdate = true;
       upgrade = true;
     };
-    
+
     taps = builtins.attrNames config.nix-homebrew.taps;
-  }; 
+  };
 }

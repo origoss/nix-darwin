@@ -1,4 +1,10 @@
-{ config, pkgs, lib, mac-app-util, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  mac-app-util,
+  ...
+}:
 {
   # Home Manager needs a bit of information about you and the
   # paths it should manage.
@@ -17,7 +23,7 @@
   };
 
   # Integrate with macOS applications
-  home.activation.trampolineApps = lib.hm.dag.entryAfter ["writeBoundary"] ''
+  home.activation.trampolineApps = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
     ${mac-app-util.packages.${pkgs.system}.default}/bin/mac-app-util sync-trampolines
   '';
   # This value determines the Home Manager release that your

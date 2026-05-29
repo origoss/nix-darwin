@@ -1,7 +1,7 @@
 {
-  username,
   ...
-}: {
+}:
+{
   imports = [
     ./settings
     ./services

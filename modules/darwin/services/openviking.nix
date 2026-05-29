@@ -1,9 +1,12 @@
-{pkgs, ...}: let
+{ pkgs, ... }:
+let
   podman = "/opt/homebrew/bin/podman";
 
   # Double-quoted osascript arg (inner quotes escaped for AppleScript) so the
   # whole thing can sit inside a single-quoted `trap '...'` without quote nesting.
-  notify = msg: ''/usr/bin/osascript -e "display notification \"${msg}\" with title \"OpenViking\" sound name \"Basso\""'';
+  notify =
+    msg:
+    ''/usr/bin/osascript -e "display notification \"${msg}\" with title \"OpenViking\" sound name \"Basso\""'';
 
   start = pkgs.writeShellScript "openviking-start" ''
     set -euo pipefail
@@ -47,10 +50,11 @@
       fi
     fi
   '';
-in {
+in
+{
   launchd.user.agents.openviking = {
     serviceConfig = {
-      ProgramArguments = ["${start}"];
+      ProgramArguments = [ "${start}" ];
       RunAtLoad = true;
       StandardOutPath = "/tmp/openviking.out.log";
       StandardErrorPath = "/tmp/openviking.err.log";
@@ -62,7 +66,7 @@ in {
 
   launchd.user.agents.openviking-health = {
     serviceConfig = {
-      ProgramArguments = ["${health}"];
+      ProgramArguments = [ "${health}" ];
       StartInterval = 300;
       StandardErrorPath = "/tmp/openviking.health.log";
     };
