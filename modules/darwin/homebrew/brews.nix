@@ -13,6 +13,8 @@ _:
     "tflint"
     "mas"
     "kube-ps1"
+    "btop"
+    "macmon"
 
     "vfkit"
     "podman"
