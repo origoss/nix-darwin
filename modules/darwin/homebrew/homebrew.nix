@@ -19,7 +19,8 @@
     onActivation = {
       cleanup = "uninstall"; # Uninstall packages removed from config for reproducibility
       autoUpdate = true;
-      upgrade = true;
+      # upgrade left off: force-upgrading every cask on rebuild breaks on casks
+      # whose uninstall scripts need interactive sudo (e.g. virtualbox).
     };
 
     taps = builtins.attrNames config.nix-homebrew.taps;
