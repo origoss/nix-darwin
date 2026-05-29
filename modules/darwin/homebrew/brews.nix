@@ -15,6 +15,7 @@ _:
     "kube-ps1"
 
     "vfkit"
+    "podman"
     "kuttl"
     "act"
     "gemini-cli"
