@@ -130,9 +130,6 @@
             home-manager.useUserPackages = true;
             home-manager.verbose = true;
             home-manager.backupFileExtension = "backup";
-            home-manager.extraSpecialArgs = {
-              inherit mac-app-util;
-            };
             home-manager.users.eja = import ./modules/home/home.nix;
           }
         ];

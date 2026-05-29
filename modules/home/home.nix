@@ -1,8 +1,6 @@
 {
   config,
   pkgs,
-  lib,
-  mac-app-util,
   ...
 }:
 {
@@ -22,10 +20,8 @@
     # EDITOR is set conditionally in zsh.initExtra based on SSH connection
   };
 
-  # Integrate with macOS applications
-  home.activation.trampolineApps = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-    ${mac-app-util.packages.${pkgs.system}.default}/bin/mac-app-util sync-trampolines
-  '';
+  # App trampolines are handled by mac-app-util.darwinModules.default (flake.nix).
+
   # This value determines the Home Manager release that your
   # configuration is compatible with. This helps avoid breakage
   # when a new Home Manager release introduces backwards
