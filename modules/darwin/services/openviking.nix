@@ -10,6 +10,14 @@
 
     trap '${notify "failed to start — see /tmp/openviking.err.log"}' ERR
 
+    # Use a clean (empty) registry auth file so podman ignores the
+    # Docker Desktop / gcloud credential helpers in ~/.docker/config.json
+    # (those break pulls of the public ghcr.io image).
+    authfile="$HOME/.config/openviking/auth.json"
+    mkdir -p "$(dirname "$authfile")"
+    printf '{"auths":{}}' > "$authfile"
+    export REGISTRY_AUTH_FILE="$authfile"
+
     # Ensure the podman machine is running (VM state is imperative on macOS;
     # init once with `podman machine init`).
     if ! ${podman} machine inspect --format '{{.State}}' 2>/dev/null | grep -q running; then

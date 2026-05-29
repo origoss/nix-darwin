@@ -48,6 +48,10 @@
       url = "github:schpet/homebrew-tap";
       flake = false;
     };
+    homebrew-jundot-omlx = {
+      url = "github:jundot/omlx";
+      flake = false;
+    };
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -93,6 +97,7 @@
               "triptechtravel/homebrew-tap" = inputs.homebrew-triptechtravel-tap;
               "multica-ai/homebrew-tap" = inputs.homebrew-multica;
               "schpet/homebrew-tap" = inputs.homebrew-schpet;
+              "jundot/homebrew-omlx" = inputs.homebrew-jundot-omlx;
             };
 
             mutableTaps = false;

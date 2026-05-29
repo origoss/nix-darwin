@@ -23,4 +23,5 @@ _:
     # "opencode"  # homebrew formula broken upstream (wrong number of arguments)
     "multica-ai/tap/multica"
     "schpet/tap/linear"
+    "jundot/omlx/omlx"
 ]

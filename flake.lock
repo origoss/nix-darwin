@@ -177,6 +177,22 @@
         "type": "github"
       }
     },
+    "homebrew-jundot-omlx": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1780050326,
+        "narHash": "sha256-4bkKSYYI1TaUvh/Eo1ZGSdVAo9Na2eDJWJH15sb94To=",
+        "owner": "jundot",
+        "repo": "omlx",
+        "rev": "04da6ff68edc1d2c0e34c0fbbee4ebeca38cd0fe",
+        "type": "github"
+      },
+      "original": {
+        "owner": "jundot",
+        "repo": "omlx",
+        "type": "github"
+      }
+    },
     "homebrew-multica": {
       "flake": false,
       "locked": {
@@ -405,6 +421,7 @@
         "homebrew-bundle": "homebrew-bundle",
         "homebrew-cask": "homebrew-cask",
         "homebrew-core": "homebrew-core",
+        "homebrew-jundot-omlx": "homebrew-jundot-omlx",
         "homebrew-multica": "homebrew-multica",
         "homebrew-nikitabobko": "homebrew-nikitabobko",
         "homebrew-schpet": "homebrew-schpet",
