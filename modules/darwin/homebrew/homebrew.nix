@@ -13,7 +13,6 @@
     brews = pkgs.callPackage ./brews.nix {};
     masApps = {
       "Be Focused - Pomodoro Timer" = 973134470;
-      "Microsoft Excel" = 462058435;   
     };
     
     onActivation = {
