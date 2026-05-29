@@ -149,6 +149,7 @@
       PROMPT='$(kube_ps1)'"$PROMPT"
       export PATH="''${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
       export PATH="$HOME/.npm-global/bin:$PATH"
+      export PATH="$HOME/.local/bin/slack:$HOME/.local/bin/omp:$PATH"
 
       [ -f ~/.kubectl_aliases ] && source ~/.kubectl_aliases
       [ -f ~/.zsh_variables ] && source ~/.zsh_variables

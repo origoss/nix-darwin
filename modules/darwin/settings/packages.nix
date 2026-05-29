@@ -42,6 +42,7 @@
 
     fastfetch
     claude-code
+    ollama
     pandoc
     gh
   ];
