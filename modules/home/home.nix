@@ -16,6 +16,11 @@
     prefix=${config.home.homeDirectory}/.npm-global
   '';
 
+  home.file.".claude/statusline.sh" = {
+    source = ./statusline.sh;
+    executable = true;
+  };
+
   home.sessionVariables = {
     # EDITOR is set conditionally in zsh.initExtra based on SSH connection
   };
