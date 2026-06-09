@@ -31,6 +31,13 @@ in
     executable = true;
   };
 
+  # sanitizing shim for local Claude Code (used by `ccl`): lifts Claude Code's
+  # stray 'system'-role messages into top-level `system` so omlx 0.3.12 accepts them
+  home.file.".omlx/claude-shim.py" = {
+    source = ./claude-shim.py;
+    executable = true;
+  };
+
   home.sessionVariables = {
     # EDITOR is set conditionally in zsh.initExtra based on SSH connection
   };
@@ -214,6 +221,30 @@ in
       export PATH="''${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
       export PATH="$HOME/.npm-global/bin:$PATH"
       export PATH="$HOME/.local/bin/omp:$PATH"
+
+      export CLAUDE_CODE_ENABLE_TELEMETRY=1
+      export CLAUDE_CODE_ENHANCED_TELEMETRY_BETA=1                          # traces (beta)
+      export OTEL_METRICS_EXPORTER=otlp
+      export OTEL_LOGS_EXPORTER=otlp
+      export OTEL_TRACES_EXPORTER=otlp
+      export OTEL_EXPORTER_OTLP_PROTOCOL=grpc
+      export OTEL_EXPORTER_OTLP_ENDPOINT=http://localhost:4317
+      export OTEL_LOG_USER_PROMPTS=1                                        # capture prompts
+      export OTEL_LOG_TOOL_CONTENT=1                                        # capture tool I/O
+      export OTEL_EXPORTER_OTLP_METRICS_TEMPORALITY_PREFERENCE=cumulative   # recommended
+
+      # local Claude Code via omlx (Gemma 4) — `ccl` = local model, `claude` = subscription
+      # model_id = subdir name under ~/.omlx/models (omlx serve has no pull; models are placed there)
+      # omlx serves on 8001; claude-shim on 8000 lifts Claude Code's stray 'system'-role
+      # messages into top-level `system` (omlx 0.3.12 rejects them with 422). launch -> shim.
+      export OMLX_MODEL="gemma-4-26b-a4b-it-4bit"
+      ccl() {
+        curl -s --max-time 1 localhost:8001/v1/models >/dev/null 2>&1 \
+          || { omlx serve --port 8001 >~/.omlx.log 2>&1 & sleep 3; }
+        curl -s --max-time 1 localhost:8000/v1/models >/dev/null 2>&1 \
+          || { python3 ~/.omlx/claude-shim.py 8000 8001 >~/.omlx-shim.log 2>&1 & sleep 1; }
+        omlx launch claude --model "$OMLX_MODEL" --port 8000 "$@"
+      }
 
       [ -f ~/.kubectl_aliases ] && source ~/.kubectl_aliases
       [ -f ~/.zsh_variables ] && source ~/.zsh_variables
