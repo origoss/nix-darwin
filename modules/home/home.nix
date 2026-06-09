@@ -3,6 +3,15 @@
   pkgs,
   ...
 }:
+let
+  # fuzzy session switcher for the M-s tmux binding; mirrors the helper that
+  # nix-darwin's programs.tmux.enableFzf used to generate (no home-manager equiv).
+  fzfTmuxSession = pkgs.writeShellScript "fzf-tmux-session" ''
+    set -e
+    session=$(tmux list-sessions -F '#{session_name}' | ${pkgs.fzf}/bin/fzf --query="$1" --exit-0)
+    tmux switch-client -t "$session"
+  '';
+in
 {
   # Home Manager needs a bit of information about you and the
   # paths it should manage.
@@ -117,6 +126,51 @@
     # Close window
     alt-shift-q = 'close'
   '';
+
+  # tmux: moved here from nix-darwin's system-level programs.tmux (was /etc/tmux.conf).
+  # HM uses different option names; enableFzf/enableVim/enableSensible extras that have
+  # no HM toggle are reproduced verbatim below so behavior is identical to the old setup.
+  programs.tmux = {
+    enable = true;
+    keyMode = "vi"; # sets mode-keys + status-keys vi; status-keys overridden to emacs below
+    terminal = "screen-256color";
+    baseIndex = 1; # HM default is 0; darwin used 1
+    escapeTime = 0; # HM default is 10; darwin/sensible used 0
+    aggressiveResize = true; # HM default false would clobber the sensible plugin's "on"
+    extraConfig = ''
+      # keep emacs-style command-prompt editing (keyMode = "vi" would flip this to vi)
+      set -g status-keys emacs
+      set -g renumber-windows on
+
+      # new windows and splits open in the current pane's working directory
+      bind c new-window -c '#{pane_current_path}'
+      bind C new-session
+      bind S switch-client -l
+      bind % split-window -v -c '#{pane_current_path}'
+      bind '"' split-window -h -c '#{pane_current_path}'
+
+      # vim-style pane navigation + splits
+      bind h select-pane -L
+      bind j select-pane -D
+      bind k select-pane -U
+      bind l select-pane -R
+      bind s split-window -v -c '#{pane_current_path}'
+      bind v split-window -h -c '#{pane_current_path}'
+
+      # vi copy-mode with macOS clipboard (pbcopy) on yank
+      bind-key -T copy-mode-vi p send-keys -X copy-pipe-and-cancel "tmux paste-buffer"
+      bind-key -T copy-mode-vi v send-keys -X begin-selection
+      bind-key -T copy-mode-vi y send-keys -X copy-pipe-and-cancel "pbcopy"
+
+      # fzf: M-p fuzzy-select tokens into the pane, M-s fuzzy-switch session
+      bind-key -n M-p run "tmux split-window -p 40 -c '#{pane_current_path}' 'tmux send-keys -t #{pane_id} \"$(${pkgs.fzf}/bin/fzf -m | paste -sd\\  -)\"'"
+      bind-key -n M-s run "tmux split-window -p 40 'tmux send-keys -t #{pane_id} \"$(${fzfTmuxSession})\"'"
+
+      # csi-u extended keys (modern terminals / Helix)
+      set -g extended-keys on
+      set -g extended-keys-format csi-u
+    '';
+  };
 
   programs.zsh = {
     enable = true;
