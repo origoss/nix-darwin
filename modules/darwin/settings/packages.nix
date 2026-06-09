@@ -44,5 +44,7 @@
     ollama
     pandoc
     gh
+
+    glow
   ];
 }
