@@ -19,6 +19,7 @@ in
   home.homeDirectory = "/Users/eja";
   home.packages = with pkgs; [
     nodejs
+    (callPackage ./pkgs/slack-cli.nix { })
   ];
 
   home.file.".npmrc".text = ''
@@ -212,7 +213,7 @@ in
       PROMPT='$(kube_ps1)'"$PROMPT"
       export PATH="''${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
       export PATH="$HOME/.npm-global/bin:$PATH"
-      export PATH="$HOME/.local/bin/slack:$HOME/.local/bin/omp:$PATH"
+      export PATH="$HOME/.local/bin/omp:$PATH"
 
       [ -f ~/.kubectl_aliases ] && source ~/.kubectl_aliases
       [ -f ~/.zsh_variables ] && source ~/.zsh_variables
