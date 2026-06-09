@@ -167,6 +167,8 @@ in
       bind-key -n M-s run "tmux split-window -p 40 'tmux send-keys -t #{pane_id} \"$(${fzfTmuxSession})\"'"
 
       # csi-u extended keys (modern terminals / Helix)
+      set -g allow-passthrough on
+      set -as terminal-features 'xterm*:extkeys'
       set -g extended-keys on
       set -g extended-keys-format csi-u
     '';
