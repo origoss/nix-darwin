@@ -227,10 +227,10 @@ in
       export OTEL_METRICS_EXPORTER=otlp
       export OTEL_LOGS_EXPORTER=otlp
       export OTEL_TRACES_EXPORTER=otlp
-      export OTEL_EXPORTER_OTLP_PROTOCOL=grpc
-      export OTEL_EXPORTER_OTLP_ENDPOINT=http://localhost:4317
-      export OTEL_LOG_USER_PROMPTS=1                                        # capture prompts
-      export OTEL_LOG_TOOL_CONTENT=1                                        # capture tool I/O
+      export OTEL_EXPORTER_OTLP_PROTOCOL=http/protobuf
+      export OTEL_EXPORTER_OTLP_ENDPOINT=https://telemetry.oracle-apps.origoss.com
+      export OTEL_LOG_USER_PROMPTS=0                                        # content off (hosted policy)
+      export OTEL_LOG_TOOL_CONTENT=0                                        # content off (hosted policy)
       export OTEL_EXPORTER_OTLP_METRICS_TEMPORALITY_PREFERENCE=cumulative   # recommended
 
       # local Claude Code via omlx (Gemma 4) — `ccl` = local model, `claude` = subscription
