@@ -50,7 +50,25 @@
 
       trackpad = {
         Clicking = true;
-        TrackpadThreeFingerDrag = true;
+        # Three-finger drag is mutually exclusive with three-finger swipe
+        # gestures on macOS — when on, it shadows the spaces-switch and
+        # Mission Control swipes. Off so the 3-finger swipes below work.
+        TrackpadThreeFingerDrag = false;
+      };
+    };
+
+    # 3-finger swipe gestures (not exposed by the typed trackpad options):
+    #   horiz = switch desktops/spaces, vert = Mission Control / App Exposé.
+    # Declared here so they survive reboots and rebuilds. The NSGlobalDomain
+    # mirror is what System Settings reads, keeping the UI in sync.
+    defaults.CustomUserPreferences = {
+      "com.apple.AppleMultitouchTrackpad" = {
+        TrackpadThreeFingerHorizSwipeGesture = 2;
+        TrackpadThreeFingerVertSwipeGesture = 2;
+      };
+      NSGlobalDomain = {
+        "com.apple.trackpad.threeFingerHorizSwipeGesture" = 2;
+        "com.apple.trackpad.threeFingerVertSwipeGesture" = 2;
       };
     };
   };
