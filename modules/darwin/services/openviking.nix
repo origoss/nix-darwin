@@ -38,8 +38,10 @@ let
   # restart (start is idempotent: ensures the machine is up and --replace
   # recreates the container). A machine bounce sends SIGTERM and neither
   # RunAtLoad nor the container restart policy bring it back, so the health
-  # job is what self-heals. The flag file debounces so it alerts/restarts
-  # once per outage, not every interval.
+  # job is what self-heals. It retries start on EVERY failed check (start is
+  # idempotent) so a failed/missed login start or a botched restart recovers
+  # on the next tick. The flag only debounces the notification — alert once
+  # per outage, not every interval.
   health = pkgs.writeShellScript "openviking-health" ''
     flag=/tmp/openviking.down
     if /usr/bin/curl -fsS --max-time 5 http://localhost:1933/health >/dev/null 2>&1; then
@@ -51,8 +53,8 @@ let
       if [ ! -f "$flag" ]; then
         : > "$flag"
         ${notify "is DOWN — restarting"}
-        ${start} || ${notify "restart failed — see /tmp/openviking.err.log"}
       fi
+      ${start} || ${notify "restart failed — see /tmp/openviking.err.log"}
     fi
   '';
 in
