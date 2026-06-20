@@ -21,10 +21,21 @@ let
     printf '{"auths":{}}' > "$authfile"
     export REGISTRY_AUTH_FILE="$authfile"
 
-    # Ensure the podman machine is running (VM state is imperative on macOS;
-    # init once with `podman machine init`).
-    if ! ${podman} machine inspect --format '{{.State}}' 2>/dev/null | grep -q running; then
-      ${podman} machine start
+    # Ensure podman is actually reachable (VM state is imperative on macOS;
+    # init once with `podman machine init`). The applehv backend reports
+    # State=running even when its API socket is dead (zombie after a host
+    # sleep), so probe the socket with `podman info` rather than trusting the
+    # reported State — the old State check trusted that lie forever and the
+    # self-heal loop could never recover. Bounce a zombie, then wait for the
+    # socket. `|| true` tolerates a concurrent starter (e.g. a podman-machine
+    # login agent) racing us to "already running".
+    if ! ${podman} info >/dev/null 2>&1; then
+      ${podman} machine stop 2>/dev/null || true
+      ${podman} machine start 2>/dev/null || true
+      for ((i = 0; i < 30; i++)); do
+        ${podman} info >/dev/null 2>&1 && break
+        sleep 2
+      done
     fi
 
     # Idempotent: --replace recreates the container on each login.
