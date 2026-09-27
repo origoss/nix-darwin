@@ -19,6 +19,11 @@ in
   home.homeDirectory = "/Users/eja";
   home.packages = with pkgs; [
     nodejs
+    cmux
+    herdr # terminal multiplexer for AI coding agents (panes/workspaces, socket API)
+    just # command runner (justfile)
+    uv # isolated Python tool installer; `uv tool install mlx-whisper` for local meeting transcription
+    vscode # was the visual-studio-code cask; mac-app-util trampolines it into /Applications
     (callPackage ./pkgs/slack-cli.nix { })
   ];
 
@@ -135,16 +140,33 @@ in
     alt-shift-q = 'close'
   '';
 
+  # Zed: native GUI editor for what Helix cannot render (inline images, markdown
+  # preview, file tree). vim_mode, not helix_mode: evil-helix already trained vim
+  # keys, and Zed's helix_mode is documented as incomplete.
+  programs.zed-editor = {
+    enable = true;
+    extensions = [ "nix" ];
+    userSettings = {
+      vim_mode = true;
+      telemetry = {
+        diagnostics = false;
+        metrics = false;
+      };
+    };
+  };
+
   # tmux: moved here from nix-darwin's system-level programs.tmux (was /etc/tmux.conf).
   # HM uses different option names; enableFzf/enableVim/enableSensible extras that have
   # no HM toggle are reproduced verbatim below so behavior is identical to the old setup.
   programs.tmux = {
     enable = true;
     keyMode = "vi"; # sets mode-keys + status-keys vi; status-keys overridden to emacs below
-    terminal = "screen-256color";
+    terminal = "tmux-256color"; # better truecolor/italics + correct terminfo vs screen-256color
+    historyLimit = 100000; # HM default 2000 is tiny; match common configs
     baseIndex = 1; # HM default is 0; darwin used 1
     escapeTime = 0; # HM default is 10; darwin/sensible used 0
     aggressiveResize = true; # HM default false would clobber the sensible plugin's "on"
+    mouse = true; # wheel-scroll Claude Code's fullscreen TUI (drag-select still uses tmux buffer, not pbcopy)
     extraConfig = ''
       # keep emacs-style command-prompt editing (keyMode = "vi" would flip this to vi)
       set -g status-keys emacs
@@ -174,11 +196,16 @@ in
       bind-key -n M-p run "tmux split-window -p 40 -c '#{pane_current_path}' 'tmux send-keys -t #{pane_id} \"$(${pkgs.fzf}/bin/fzf -m | paste -sd\\  -)\"'"
       bind-key -n M-s run "tmux split-window -p 40 'tmux send-keys -t #{pane_id} \"$(${fzfTmuxSession})\"'"
 
+      # Claude Code: pass prefix-o through as C-o (expand details); dump scrollback to a pager
+      bind o send-keys C-o
+      bind e capture-pane -S -10000 \; save-buffer /tmp/tmux-scrollback.txt \; new-window 'less /tmp/tmux-scrollback.txt'
+
       # csi-u extended keys (modern terminals / Helix)
       set -g allow-passthrough on
       set -as terminal-features 'xterm*:extkeys'
       set -g extended-keys on
       set -g extended-keys-format csi-u
+      set -g focus-events on
     '';
   };
 
@@ -187,6 +214,10 @@ in
     enableCompletion = true;
     autosuggestion.enable = true;
     syntaxHighlighting.enable = true;
+    shellAliases = {
+      # transcribe meeting audio -> <name>.txt (mlx-whisper, Apple-silicon local). Usage: transcribe meeting.m4a
+      transcribe = "mlx_whisper --model mlx-community/whisper-large-v3-turbo --output-format txt";
+    };
     oh-my-zsh = {
       enable = true;
       theme = "robbyrussell";
@@ -212,7 +243,7 @@ in
       if [[ -n $SSH_CONNECTION ]]; then
         export EDITOR='vim'
       else
-        export EDITOR='hx'
+        export EDITOR='zeditor --wait' # --wait blocks so git commit/rebase see the saved buffer
       fi
 
       export ARCHFLAGS="-arch $(uname -m)"
@@ -221,6 +252,7 @@ in
       export PATH="''${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
       export PATH="$HOME/.npm-global/bin:$PATH"
       export PATH="$HOME/.local/bin/omp:$PATH"
+      export PATH="$HOME/.local/bin:$PATH" # uv tool bins (mlx_whisper)
 
       export CLAUDE_CODE_ENABLE_TELEMETRY=1
       export CLAUDE_CODE_ENHANCED_TELEMETRY_BETA=1                          # traces (beta)
