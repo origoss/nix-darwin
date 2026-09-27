@@ -23,6 +23,7 @@
 
     # VPN
     openfortivpn
+    wireguard-tools
 
     # Shell
     zsh
