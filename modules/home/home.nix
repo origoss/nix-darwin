@@ -25,6 +25,7 @@ in
     uv # isolated Python tool installer; `uv tool install mlx-whisper` for local meeting transcription
     vscode # was the visual-studio-code cask; mac-app-util trampolines it into /Applications
     (callPackage ./pkgs/slack-cli.nix { })
+    (callPackage ./pkgs/carbonyl.nix { }) # Chromium in the terminal; browser inside a herdr/tmux pane
   ];
 
   home.file.".npmrc".text = ''
