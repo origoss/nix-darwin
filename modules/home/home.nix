@@ -262,7 +262,7 @@ in
       export OTEL_LOGS_EXPORTER=otlp
       export OTEL_TRACES_EXPORTER=otlp
       export OTEL_EXPORTER_OTLP_PROTOCOL=http/protobuf
-      export OTEL_EXPORTER_OTLP_ENDPOINT=https://telemetry.oracle-apps.origoss.com
+      export OTEL_EXPORTER_OTLP_ENDPOINT=http://localhost:4318  # local collector -> Datadog + Origoss (~/projects/datadoghq/agent-obs)
       export OTEL_LOG_USER_PROMPTS=0                                        # content off (hosted policy)
       export OTEL_LOG_TOOL_CONTENT=0                                        # content off (hosted policy)
       export OTEL_EXPORTER_OTLP_METRICS_TEMPORALITY_PREFERENCE=cumulative   # recommended
