@@ -8,5 +8,6 @@ _:
   "google-chrome"
   "transmission"
   "stats"
+  "tailscale-app"
   "virtualbox"
 ]
