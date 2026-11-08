@@ -7,13 +7,9 @@
     pre-commit
     gnupg
 
-    d2
-
     # Programming
     python3
-    virtualenv
     go
-    neovim
 
     jq
     fzf
@@ -35,8 +31,6 @@
     k9s
     kustomize
     kubectl
-    kubernetes-polaris
-    minikube
     kubernetes-helm
     (google-cloud-sdk.withExtraComponents [ google-cloud-sdk.components.gke-gcloud-auth-plugin ])
 

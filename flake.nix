@@ -40,16 +40,8 @@
       url = "github:homebrew/homebrew-bundle";
       flake = false;
     };
-    homebrew-multica = {
-      url = "github:multica-ai/homebrew-tap";
-      flake = false;
-    };
     homebrew-schpet = {
       url = "github:schpet/homebrew-tap";
-      flake = false;
-    };
-    homebrew-jundot-omlx = {
-      url = "github:jundot/omlx";
       flake = false;
     };
     home-manager = {
@@ -115,9 +107,7 @@
                 "nikitabobko/homebrew-aerospace" = inputs.homebrew-nikitabobko;
                 "anomalyco/homebrew-tap" = inputs.homebrew-anomalyco;
                 "triptechtravel/homebrew-tap" = inputs.homebrew-triptechtravel-tap;
-                "multica-ai/homebrew-tap" = inputs.homebrew-multica;
                 "schpet/homebrew-tap" = inputs.homebrew-schpet;
-                "jundot/homebrew-omlx" = inputs.homebrew-jundot-omlx;
               };
 
               mutableTaps = false;

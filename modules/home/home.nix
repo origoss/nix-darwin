@@ -19,14 +19,11 @@ in
   home.homeDirectory = "/Users/eja";
   home.packages = with pkgs; [
     nodejs
-    cmux
     herdr # terminal multiplexer for AI coding agents (panes/workspaces, socket API)
     just # command runner (justfile)
     uv # isolated Python tool installer; `uv tool install mlx-whisper` for local meeting transcription
     supertuxkart # kart racing game
-    vscode # was the visual-studio-code cask; mac-app-util trampolines it into /Applications
     (callPackage ./pkgs/slack-cli.nix { })
-    (callPackage ./pkgs/carbonyl.nix { }) # Chromium in the terminal; browser inside a herdr/tmux pane
   ];
 
   home.file.".npmrc".text = ''
@@ -35,13 +32,6 @@ in
 
   home.file.".claude/statusline.sh" = {
     source = ./statusline.sh;
-    executable = true;
-  };
-
-  # sanitizing shim for local Claude Code (used by `ccl`): lifts Claude Code's
-  # stray 'system'-role messages into top-level `system` so omlx 0.3.12 accepts them
-  home.file.".omlx/claude-shim.py" = {
-    source = ./claude-shim.py;
     executable = true;
   };
 
@@ -141,21 +131,6 @@ in
     # Close window
     alt-shift-q = 'close'
   '';
-
-  # Zed: native GUI editor for what Helix cannot render (inline images, markdown
-  # preview, file tree). vim_mode, not helix_mode: evil-helix already trained vim
-  # keys, and Zed's helix_mode is documented as incomplete.
-  programs.zed-editor = {
-    enable = true;
-    extensions = [ "nix" ];
-    userSettings = {
-      vim_mode = true;
-      telemetry = {
-        diagnostics = false;
-        metrics = false;
-      };
-    };
-  };
 
   # tmux: moved here from nix-darwin's system-level programs.tmux (was /etc/tmux.conf).
   # HM uses different option names; enableFzf/enableVim/enableSensible extras that have
@@ -270,19 +245,6 @@ in
       export OTEL_LOG_USER_PROMPTS=0                                        # content off (hosted policy)
       export OTEL_LOG_TOOL_CONTENT=0                                        # content off (hosted policy)
       export OTEL_EXPORTER_OTLP_METRICS_TEMPORALITY_PREFERENCE=cumulative   # recommended
-
-      # local Claude Code via omlx (Gemma 4) — `ccl` = local model, `claude` = subscription
-      # model_id = subdir name under ~/.omlx/models (omlx serve has no pull; models are placed there)
-      # omlx serves on 8001; claude-shim on 8000 lifts Claude Code's stray 'system'-role
-      # messages into top-level `system` (omlx 0.3.12 rejects them with 422). launch -> shim.
-      export OMLX_MODEL="gemma-4-26b-a4b-it-4bit"
-      ccl() {
-        curl -s --max-time 1 localhost:8001/v1/models >/dev/null 2>&1 \
-          || { omlx serve --port 8001 >~/.omlx.log 2>&1 & sleep 3; }
-        curl -s --max-time 1 localhost:8000/v1/models >/dev/null 2>&1 \
-          || { python3 ~/.omlx/claude-shim.py 8000 8001 >~/.omlx-shim.log 2>&1 & sleep 1; }
-        omlx launch claude --model "$OMLX_MODEL" --port 8000 "$@"
-      }
 
       [ -f ~/.kubectl_aliases ] && source ~/.kubectl_aliases
       [ -f ~/.zsh_variables ] && source ~/.zsh_variables
