@@ -216,6 +216,10 @@ in
     enableCompletion = true;
     autosuggestion.enable = true;
     syntaxHighlighting.enable = true;
+    # .zshenv: read by every shell incl. non-interactive. Token lives in Keychain.
+    envExtra = ''
+      export APIFY_TOKEN="$(security find-generic-password -a "$USER" -s apify-token -w 2>/dev/null)"
+    '';
     shellAliases = {
       # transcribe meeting audio -> <name>.txt (mlx-whisper, Apple-silicon local). Usage: transcribe meeting.m4a
       transcribe = "mlx_whisper --model mlx-community/whisper-large-v3-turbo --output-format txt";
@@ -245,7 +249,7 @@ in
       if [[ -n $SSH_CONNECTION ]]; then
         export EDITOR='vim'
       else
-        export EDITOR='zeditor --wait' # --wait blocks so git commit/rebase see the saved buffer
+        export EDITOR='hx'
       fi
 
       export ARCHFLAGS="-arch $(uname -m)"
