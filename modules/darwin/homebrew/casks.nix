@@ -8,4 +8,5 @@ _:
   "transmission"
   "stats"
   "tailscale-app"
+  "vscodium"
 ]
