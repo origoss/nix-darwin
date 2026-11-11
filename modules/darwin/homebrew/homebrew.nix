@@ -1,5 +1,22 @@
-{ pkgs, config, ... }:
 {
+  pkgs,
+  config,
+  lib,
+  ...
+}:
+let
+  # Non-official taps in brew's short form ("nikitabobko/homebrew-aerospace" -> "nikitabobko/aerospace").
+  thirdPartyTaps = map (lib.replaceStrings [ "/homebrew-" ] [ "/" ]) (
+    lib.filter (n: !lib.hasPrefix "homebrew/" n) (builtins.attrNames config.nix-homebrew.taps)
+  );
+in
+{
+  # brew refuses casks/formulae from untrusted taps; trust ours before `brew bundle` runs.
+  system.activationScripts.preActivation.text = ''
+    sudo --user=${config.nix-homebrew.user} --set-home env HOMEBREW_NO_AUTO_UPDATE=1 \
+      /opt/homebrew/bin/brew trust --quiet --tap ${lib.escapeShellArgs thirdPartyTaps} || true
+  '';
+
   homebrew = {
     enable = true;
 
